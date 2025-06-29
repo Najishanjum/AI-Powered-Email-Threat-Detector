@@ -60,8 +60,12 @@ class PhishingReport(BaseModel):
 
 # AI Analysis Function
 async def analyze_email_threats(email_content: str, session_id: str) -> EmailAnalysisResult:
-    """Analyze email content for threats using OpenAI GPT-4o"""
+    """Analyze email content for threats using OpenAI GPT-4o or demo mode"""
     try:
+        # Check if we should use demo mode
+        if os.environ.get('DEMO_MODE') == 'true':
+            return await analyze_email_demo_mode(email_content, session_id)
+        
         # Initialize OpenAI chat
         chat = LlmChat(
             api_key=os.environ.get('OPENAI_API_KEY'),
@@ -145,7 +149,75 @@ Threat levels: LOW (0-25), MEDIUM (26-50), HIGH (51-75), CRITICAL (76-100)"""
 
     except Exception as e:
         logging.error(f"Error analyzing email: {str(e)}")
+        # If it's a quota error, suggest demo mode
+        if "quota" in str(e).lower() or "rate" in str(e).lower():
+            raise HTTPException(
+                status_code=429, 
+                detail="OpenAI API quota exceeded. Please check your billing at https://platform.openai.com/account/billing or contact support to enable demo mode."
+            )
         raise HTTPException(status_code=500, detail=f"Analysis failed: {str(e)}")
+
+# Demo mode analysis function
+async def analyze_email_demo_mode(email_content: str, session_id: str) -> EmailAnalysisResult:
+    """Demo mode threat analysis with realistic threat detection"""
+    import re
+    
+    threats = []
+    threat_score = 0
+    
+    # Check for common phishing indicators
+    phishing_patterns = [
+        (r'https?://[^\s]*(?:fake|scam|malicious|phishing)[^\s]*', 'MALICIOUS_LINK', 90, 'Suspicious URL with malicious keywords'),
+        (r'urgent(?:ly)?|immediate(?:ly)?|act now|expire|suspend', 'URGENCY_MANIPULATION', 75, 'Uses urgency tactics to pressure victims'),
+        (r'click here|verify account|confirm identity|update payment', 'SOCIAL_ENGINEERING', 85, 'Social engineering tactics detected'),
+        (r'dear (?:customer|user|client)', 'IMPERSONATION', 65, 'Generic greeting suggesting impersonation'),
+        (r'(?:frozen|suspended|locked|blocked)', 'ACCOUNT_THREAT', 80, 'Threatens account security to create panic'),
+        (r'https?://[^\s]+', 'SUSPICIOUS_LINK', 50, 'External link requires verification')
+    ]
+    
+    for pattern, threat_type, confidence, description in phishing_patterns:
+        matches = list(re.finditer(pattern, email_content, re.IGNORECASE))
+        for match in matches:
+            threats.append(ThreatDetection(
+                text=match.group(),
+                threat_type=threat_type,
+                confidence=confidence,
+                start_pos=match.start(),
+                end_pos=match.end(),
+                description=description
+            ))
+            threat_score += confidence * 0.2  # Weight the score
+    
+    # Calculate overall threat score and level
+    overall_score = min(int(threat_score), 100)
+    if overall_score <= 25:
+        threat_level = "LOW"
+    elif overall_score <= 50:
+        threat_level = "MEDIUM"
+    elif overall_score <= 75:
+        threat_level = "HIGH"
+    else:
+        threat_level = "CRITICAL"
+    
+    # Generate analysis summary
+    if threats:
+        summary = f"Detected {len(threats)} potential threats including {', '.join(set(t.threat_type.replace('_', ' ').lower() for t in threats))}. Exercise caution with this email."
+    else:
+        summary = "No significant threats detected. Email appears to be safe."
+    
+    result = EmailAnalysisResult(
+        session_id=session_id,
+        email_content=email_content,
+        overall_threat_score=overall_score,
+        threat_level=threat_level,
+        threats_detected=threats,
+        analysis_summary=summary + " (Demo Mode Analysis)"
+    )
+    
+    # Store in database
+    await db.email_analyses.insert_one(result.dict())
+    
+    return result
 
 # API Routes
 @api_router.get("/")
