@@ -173,7 +173,15 @@ function App() {
       loadRecentAnalyses();
     } catch (error) {
       console.error('Analysis failed:', error);
-      alert('Analysis failed. Please try again.');
+      
+      // Handle quota exceeded error
+      if (error.response?.status === 429) {
+        alert('⚠️ OpenAI API quota exceeded!\n\nPlease:\n1. Check your billing at https://platform.openai.com/account/billing\n2. Add payment method if needed\n3. Or contact support to enable demo mode\n\nDemo mode will show how the threat detection works with pattern matching.');
+      } else if (error.response?.data?.detail) {
+        alert(`Analysis failed: ${error.response.data.detail}`);
+      } else {
+        alert('Analysis failed. Please check your internet connection and try again.');
+      }
     } finally {
       setLoading(false);
     }
