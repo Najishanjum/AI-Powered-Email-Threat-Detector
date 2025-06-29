@@ -232,7 +232,7 @@ function App() {
                 <p className="text-sm text-gray-600">AI-Powered Email Threat Detector</p>
               </div>
             </div>
-            <div className="text-sm text-gray-500">Powered by GPT-4o</div>
+            <div className="text-sm text-gray-500">Powered by GPT-4o {analysis && analysis.analysis_summary?.includes('Demo Mode') && '(Demo Mode)'}</div>
           </div>
         </div>
       </header>
