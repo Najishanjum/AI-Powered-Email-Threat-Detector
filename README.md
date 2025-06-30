@@ -1,4 +1,4 @@
-# Here are your Instructions
+
 # 🛡️ AI-Powered Email Threat Detector
 
 A smart, secure, and interactive email threat detection system powered by **OpenAI GPT-4o**. Detects phishing, scams, malicious links, and social engineering attempts — with AI insights, a visual threat heatmap, and one-click reporting functionality.
@@ -35,9 +35,9 @@ A smart, secure, and interactive email threat detection system powered by **Open
 ## 🧰 Tech Stack
 
 - **Frontend:** HTML, CSS, JavaScript and Tailwind
-- **Backend:** Node.js 
+- **Backend:** Flask and FastAPI 
 - **AI:** OpenAI GPT-4o API
-- **Database:** firebase
+- **Database:** SQLite, MongoDB,firebase
 - **Hosting:** [(https://safemail-detect.preview.emergentagent.com)]
 
 ---
