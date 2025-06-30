@@ -38,7 +38,7 @@ A smart, secure, and interactive email threat detection system powered by **Open
 - **Backend:** Node.js 
 - **AI:** OpenAI GPT-4o API
 - **Database:** firebase
-- **Hosting:** [(emergent.com ](https://safemail-detect.preview.emergentagent.com/)]
+- **Hosting:** [(https://safemail-detect.preview.emergentagent.com)]
 
 ---
 
@@ -51,7 +51,7 @@ A smart, secure, and interactive email threat detection system powered by **Open
 
 ## 🔗 Live Demo & GitHub
 
-- 🌐 Live Demo: [[Insert live site link if hosted](https://1629cc8c-48ee-4414-834d-b6ef96fc1906.preview.emergentagent.com/)]
+- 🌐 Live Demo: [(https://1629cc8c-48ee-4414-834d-b6ef96fc1906.preview.emergentagent.com)]
 - 📂 Repository: You're already here ✅
 
 ---
