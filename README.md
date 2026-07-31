@@ -62,6 +62,8 @@ Open to suggestions, issues, and collaborations! Feel free to fork the repo, rai
 
 ---
 
+this is built by najishanjum for the users 
+
 ## 🏷️ Tags
 
 `#AI` `#CyberSecurity` `#PhishingDetection` `#OpenAI` `#GPT4o` `#EmailSecurity` `#MachineLearning` `#WebDevelopment` `#NajishProjects`
