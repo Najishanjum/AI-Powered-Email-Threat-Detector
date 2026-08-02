@@ -66,7 +66,7 @@ this is built by najishanjum for the users
 
 ## 🏷️ Tags
 
-
+a smart secure interactive email threat detection system powered bby openai gpt 40 detects publisuing saca,s ,aliciou links and social engineering a smart contract with ai insight a visual thrat heatmap adn one click reportin functaionlity 
 A smart, secure, and interactive email threat detection system powered by OpenAI GPT-4o. Detects phishing, scams, malicious links, and social engineering attempts — with AI insights, a visual threat heatmap, and one-click reporting functionality.
 
 `#AI` `#CyberSecurity` `#PhishingDetection` `#OpenAI` `#GPT4o` `#EmailSecurity` `#MachineLearning` `#WebDevelopment` `#NajishProjects`
