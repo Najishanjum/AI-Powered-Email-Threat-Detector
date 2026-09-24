@@ -75,3 +75,4 @@ A smart, secure, and interactive email threat detection system powered by OpenAI
 Hieeee
 how to do and affetced from this 
 
+this cann easily restricton fo ur email
