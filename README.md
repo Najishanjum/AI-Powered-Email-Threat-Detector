@@ -77,3 +77,5 @@ how to do and affetced from this
 
 this cann easily restricton fo ur email
 Your email ur responsilbilit turn to our idea
+
+so just put you email and get the output fromm  this and u feel like satisfies 
